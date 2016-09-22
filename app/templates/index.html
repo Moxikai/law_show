@@ -2,8 +2,20 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block content %}
+    {{ super() }}
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span4">
+            {{ wtf.quick_form(form) }}
+		</div>
+		<div class="span4">
 
-{{ super() }}
-{{ wtf.quick_form(form) }}
+		</div>
+		<div class="span4">
+
+		</div>
+	</div>
+</div>
 
 {% endblock %}
+
