@@ -9,7 +9,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 from flask import render_template,request,session,redirect,url_for,current_app,\
-    abort
+    abort,flash
 
 from ..forms import LawForm
 from . import main
@@ -39,6 +39,7 @@ def index():
 @main.route('/research',methods=['GET','POST'])
 def research():
 
+    form = LawForm()
     #获取查询参数
     page = request.args.get('page')
     if page:
@@ -68,12 +69,15 @@ def research():
         obj = obj.filter(Law.title.like(title_encode)).filter(Law.content.like(content_encode))
 
     pagination = obj.paginate(page,current_app.config['ARTICLE_PER_PAGE'],False)
-
     articles = pagination.items
+
     if articles:
+        flash('本页记录%s个'%len(articles))
         return render_template('list.html',articles = articles,pagination = pagination)
     else:
-        pass
+
+        flash('没有找到相关记录,请调整关键字后查询!')
+        return redirect(url_for('main.index',form=form))
 
 
 @main.route('/article/<string:id>')
