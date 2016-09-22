@@ -13,6 +13,7 @@ class Config():
     pass
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 #开发配置,继承至基本配置
 class DevelopmentConfig(Config):
