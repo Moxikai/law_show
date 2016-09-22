@@ -8,7 +8,8 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-from flask import render_template,request,session,redirect,url_for,current_app
+from flask import render_template,request,session,redirect,url_for,current_app,\
+    abort
 
 from ..forms import LawForm
 from . import main
@@ -69,15 +70,28 @@ def research():
     pagination = obj.paginate(page,current_app.config['ARTICLE_PER_PAGE'],False)
 
     articles = pagination.items
-    return render_template('list.html',articles = articles,pagination = pagination)
+    if articles:
+        return render_template('list.html',articles = articles,pagination = pagination)
+    else:
+        pass
 
-    #law = Law.query.first()
-    #return '<h1>%s</h1>'%(law.title)
 
 @main.route('/article/<string:id>')
 def detail(id):
-    pass
-    return render_template('detail.html')
+
+    if id:
+
+        article = Law.query.filter(Law.id == id).first()
+        if not article:
+
+            return abort(500)
+        else:
+
+            return render_template('detail.html',article = article)
+    else:
+        return abort(404)
+
+
 
 
 

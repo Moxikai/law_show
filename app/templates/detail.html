@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+
+    {{ super() }}
+    <div class="container">
+        <div class="page-header">
+            <p>分类名称:{{ article.type }}</p>
+            <p>公布机关:{{ article.publishDepartment }}</p>
+            <p>公布日期:{{ article.publishDate }}</p>
+            <p>生效日期:{{ article.effectDate }}</p>
+            <p>效力状态:{{ article.status }}</p>
+            <p>失效日期:{{ article.loseEffectDate }}</p>
+        </div>
+        <div class="panel-body">
+            {{ article.content|safe }}
+        </div>
+    </div>
+{% endblock %}
