@@ -1,3 +1,5 @@
 .idea/
 *.db
 *.pyc
+test/
+.DS_Store

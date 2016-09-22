@@ -8,7 +8,6 @@
 import os
 
 baseDir = os.path.dirname(__file__)
-
 #基本配置
 class Config():
     pass
@@ -19,8 +18,8 @@ class Config():
 class DevelopmentConfig(Config):
     pass
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI') or \
-        'sqlite:///' + os.path.join(baseDir,'data-dev.db')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI') or 'sqlite:///'+os.path.join(baseDir,'data-dev.db')
+    ARTICLE_PER_PAGE = 12
 
 #生产配置
 class ProductionConfig(Config):

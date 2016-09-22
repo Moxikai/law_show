@@ -5,11 +5,10 @@
 模型
 """
 
-from sqlalchemy import Column,String,Text
 from . import db
 
 class Law(db.Model):
-    __tablename__ = 'laws'
+    __tablename__ = 'law'
 
     id = db.Column(db.String(48),primary_key=True)
     title = db.Column(db.String(48))
@@ -21,4 +20,6 @@ class Law(db.Model):
     status = db.Column(db.String(48))
     content = db.Column(db.Text)
 
-
+if __name__ == '__main__':
+    pass
+    db.create_all()
