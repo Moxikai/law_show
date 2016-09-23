@@ -78,7 +78,6 @@ class Product(db.Model):
     platform_id = db.Column(db.String(48),db.ForeignKey('platform.id'))
 
 
-
 if __name__ == '__main__':
     pass
     db.create_all()
