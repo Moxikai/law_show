@@ -67,6 +67,17 @@ class Platform(db.Model):
     cashTime = db.Column(db.String(48))
     persons = db.relationship('Person',backref='platform')
 
+class Product(db.Model):
+    __tablename__ = 'product'
+
+    id = db.Column(db.String(48),primary_key=True)
+    name = db.Column(db.String(48))
+    annualizedReturn = db.Column(db.String(48)) #年化收益率
+    cycle = db.Column(db.String(48)) #投资周期
+    remainAmount = db.Column(db.String(48)) #剩余额度
+    platform_id = db.Column(db.String(48),db.ForeignKey('platform.id'))
+
+
 
 if __name__ == '__main__':
     pass
