@@ -121,15 +121,15 @@ def platform(id):
     platform = Platform.query.filter(Platform.id == id).first()
     person = Person.query.filter(Person.platform_id == id).first()
     products = Product.query.filter(Product.platform_id == id).all()
-    if platform and person and products:
+    #if platform and person and products:
 
-        return render_template('platform.html',
-                               platform = platform,
-                               person = person,
-                               products = products,
-                               )
-    else:
-        return abort(500)
+    return render_template('platform.html',
+                           platform = platform,
+                           person = person,
+                           products = products,
+                           )
+    #else:
+        #return abort(500)
 
 @main.route('/test')
 def test():

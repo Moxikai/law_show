@@ -62,7 +62,7 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="onPlatform">
-                        <p>平台简介</p>
+                        {{ platform.abstract|safe }}
                     </div>
                     <div class="tab-pane" id ="onPerson">
                         {{ person.abstracts|safe}}

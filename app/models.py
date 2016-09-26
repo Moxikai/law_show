@@ -50,6 +50,7 @@ class Platform(db.Model):
     assignmentOfDebt = db.Column(db.String(48))
     automaticBidding = db.Column(db.String(48))
     cashTime = db.Column(db.String(48))
+    abstract = db.Column(db.Text)
     persons = db.relationship('Person',backref='platform')
 
 class Product(db.Model):
