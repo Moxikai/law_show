@@ -48,8 +48,9 @@ def research():
         page = 1
     title = session['title']
     content = session['content']
-    title_encode = unicode('%'+title+'%')
-    content_encode = unicode('%'+content+'%')
+    #监测是否存在多关键字
+    #title_encode = unicode('%'+title+'%')
+    #content_encode = unicode('%'+content+'%')
     obj = Law.query
 
     #判断查询参数,构建相应查询条件
@@ -57,16 +58,26 @@ def research():
         pass
 
     elif title and not content:
-
-        obj = obj.filter(Law.title.like(title_encode))
+        #以空格分隔
+        titles = title.split(' ')
+        for title in titles:
+            title_encode = unicode('%'+title+'%')
+            obj = obj.filter(Law.title.like(title_encode))
 
     elif not title and content:
-
-        obj = obj.filter(Law.content.like(content_encode))
+        contents = content.split(' ')
+        for content in contents:
+            content_encode = unicode('%'+content+'%')
+            obj = obj.filter(Law.content.like(content_encode))
 
     elif title and content:
-
-        obj = obj.filter(Law.title.like(title_encode)).filter(Law.content.like(content_encode))
+        titles = title.split(' ')
+        contents = content.split(' ')
+        for title in titles:
+            title_encode = unicode('%'+title+'%')
+            for content in contents:
+                content_encode = unicode('%' + content + '%')
+                obj = obj.filter(Law.title.like(title_encode)).filter(Law.content.like(content_encode))
 
     pagination = obj.paginate(page,current_app.config['ARTICLE_PER_PAGE'],False)
     articles = pagination.items
