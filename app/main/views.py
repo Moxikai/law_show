@@ -13,7 +13,7 @@ from flask import render_template,request,session,redirect,url_for,current_app,\
 
 from ..forms import LawForm
 from . import main
-from ..models import Law
+from ..models import Law,Platform,Person,Product
 from .. import db
 
 
@@ -94,6 +94,36 @@ def detail(id):
             return render_template('detail.html',article = article)
     else:
         return abort(404)
+
+#理财平台列表
+@main.route('/platform')
+def platform_list():
+    pass
+    platforms = Platform.query.all()
+    return render_template('platform_list.html',platforms=platforms,count=len(platforms))
+
+
+#平台详情
+@main.route('/platform/<string:id>')
+def platform(id):
+
+    platform = Platform.query.filter(Platform.id == id).first()
+    person = Person.query.filter(Person.platform_id == id).first()
+    products = Product.query.filter(Product.platform_id == id).all()
+    if platform and person and products:
+
+        return render_template('platform.html',
+                               platform = platform,
+                               person = person,
+                               products = products,
+                               )
+    else:
+        return abort(500)
+
+@main.route('/test')
+def test():
+    return render_template('test.html')
+
 
 
 

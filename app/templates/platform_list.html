@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {{ super() }}
+    <div class="container">
+        <div class="row">
+            <div class="page-header">
+                <h3>当前监测理财平台{{ count }}个</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2">
+
+            </div>
+            <div class="col-lg-8">
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th>平台</th>
+                        <th>第三方评级</th>
+                        <th>平均收益率</th>
+                        <th>上线时间</th>
+                        <th>区域</th>
+                        <th>背景</th>
+                    </tr>
+                    {% for platform in platforms %}
+                        <tr>
+                            <td>
+                                <a href="{{ url_for('main.platform',id=platform.id) }}">{{ platform.name }}</a>
+                            </td>
+                            <td>{{ platform.gradeFromThird }}</td>
+                            <td>{{ platform.profitAverage }}</td>
+                            <td>{{ platform.dateSale }}</td>
+                            <td>{{ platform.area }}</td>
+                            <td>{{ platform.backGround }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col-lg-2">
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
