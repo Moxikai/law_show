@@ -52,11 +52,9 @@ def research():
     #title_encode = unicode('%'+title+'%')
     #content_encode = unicode('%'+content+'%')
     obj = Law.query
-
     #判断查询参数,构建相应查询条件
     if not title and not content:
         pass
-
     elif title and not content:
         #以空格分隔
         titles = title.split(' ')
@@ -78,6 +76,8 @@ def research():
             for content in contents:
                 content_encode = unicode('%' + content + '%')
                 obj = obj.filter(Law.title.like(title_encode)).filter(Law.content.like(content_encode))
+
+    obj = obj.order_by(Law.effectDate.desc())
 
     pagination = obj.paginate(page,current_app.config['ARTICLE_PER_PAGE'],False)
     articles = pagination.items
