@@ -63,6 +63,22 @@ class Product(db.Model):
     remainAmount = db.Column(db.String(48)) #剩余额度
     platform_id = db.Column(db.String(48),db.ForeignKey('platform.id'))
 
+class Company(db.Model):
+    """新增公司信息"""
+    __tablename__ = 'company'
+
+    id = db.Column(db.String(48),primary_key=True)
+    platformName = db.Column(db.String(48)) #冗余字段
+    companyName = db.Column(db.String(48))
+    legalRepresentative = db.Column(db.String(48))
+    QQ = db.Column(db.String(48))
+    phoneCustomer = db.Column(db.String(48))
+    address = db.Column(db.String(128))
+    noteSpecial = db.Column(db.Text)
+
+
+
+
 
 if __name__ == '__main__':
     pass
