@@ -20,15 +20,6 @@ class Law(db.Model):
     status = db.Column(db.String(48))
     content = db.Column(db.Text)
 
-class Person(db.Model):
-    __tablename__='person'
-
-    id = db.Column(db.String(48),primary_key=True)
-    abstracts = db.Column(db.Text)
-    platform_id = db.Column(db.String(48),db.ForeignKey('platform.id'))
-
-
-
 class Platform(db.Model):
     __tablename__ = 'platform'
 
@@ -51,7 +42,9 @@ class Platform(db.Model):
     automaticBidding = db.Column(db.String(48))
     cashTime = db.Column(db.String(48))
     abstract = db.Column(db.Text)
-    persons = db.relationship('Person',backref='platform')
+    manageTeam = db.Column(db.Text)
+    products = db.relationship('Product',backref='platform')
+    companys = db.relationship('Company',backref='platform')
 
 class Product(db.Model):
     __tablename__ = 'product'
@@ -75,7 +68,7 @@ class Company(db.Model):
     phoneCustomer = db.Column(db.String(48))
     address = db.Column(db.String(128))
     noteSpecial = db.Column(db.Text)
-    platform_id = db.Column(db.String(48))
+    platform_id = db.Column(db.String(48),db.ForeignKey('platform.id'))
 
 
 

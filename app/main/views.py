@@ -13,7 +13,7 @@ from flask import render_template,request,session,redirect,url_for,current_app,\
 
 from ..forms import LawForm
 from . import main
-from ..models import Law,Platform,Person,Product,Company
+from ..models import Law,Platform,Product,Company
 from .. import db
 
 
@@ -127,15 +127,13 @@ def platform_list():
 def platform(id):
 
     platform = Platform.query.filter(Platform.id == id).first()
-    person = Person.query.filter(Person.platform_id == id).first()
     products = Product.query.filter(Product.platform_id == id).all()
     #if platform and person and products:
     company = Company.query.filter(Company.platform_id == id).first()
     return render_template('platform.html',
                            platform = platform,
-                           person = person,
                            products = products,
-                           company = company
+                           company = company,
                            )
     #else:
         #return abort(500)
