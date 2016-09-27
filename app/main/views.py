@@ -13,7 +13,7 @@ from flask import render_template,request,session,redirect,url_for,current_app,\
 
 from ..forms import LawForm
 from . import main
-from ..models import Law,Platform,Person,Product
+from ..models import Law,Platform,Person,Product,Company
 from .. import db
 
 
@@ -109,9 +109,17 @@ def detail(id):
 #理财平台列表
 @main.route('/platform')
 def platform_list():
-    pass
+
     platforms = Platform.query.all()
-    return render_template('platform_list.html',platforms=platforms,count=len(platforms))
+    #获取公司信息列表
+    companys = Company.query.all()
+    id_list = [company.platform_id for company in companys]
+    count = 0
+    for platform in platforms:
+        if platform.id in id_list:
+            count += 1
+    flash('当前平台数量%s个，目前已更新公司信息(绿色标记)数量%s个'%(len(platforms),count))
+    return render_template('platform_list.html',platforms=platforms,id_list = id_list,count=len(platforms))
 
 
 #平台详情
@@ -122,11 +130,12 @@ def platform(id):
     person = Person.query.filter(Person.platform_id == id).first()
     products = Product.query.filter(Product.platform_id == id).all()
     #if platform and person and products:
-
+    company = Company.query.filter(Company.platform_id == id).first()
     return render_template('platform.html',
                            platform = platform,
                            person = person,
                            products = products,
+                           company = company
                            )
     #else:
         #return abort(500)

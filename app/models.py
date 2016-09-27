@@ -75,6 +75,7 @@ class Company(db.Model):
     phoneCustomer = db.Column(db.String(48))
     address = db.Column(db.String(128))
     noteSpecial = db.Column(db.Text)
+    platform_id = db.Column(db.String(48))
 
 
 

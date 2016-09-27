@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             <div class="page-header">
-                <h3>当前监测理财平台{{ count }}个</h3>
+                <a href="http://www.rong360.com/licai-p2p/pingtai/rating"><h5>评级数据来源于融360</h5></a>
             </div>
         </div>
         <div class="row">
@@ -25,7 +25,7 @@
                     {% for platform in platforms %}
                         <tr>
                             <td>
-                                <a href="{{ url_for('main.platform',id=platform.id) }}">{{ platform.name }}</a>
+                                <a href="{{ url_for('main.platform',id=platform.id) }}"><p {% if platform.id in id_list %}style="color: green"{% endif %}>{{ platform.name }}</p></a>
                             </td>
                             <td>{{ platform.gradeFromThird }}</td>
                             <td>{{ platform.profitAverage }}</td>

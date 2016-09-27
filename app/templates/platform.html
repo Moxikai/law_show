@@ -51,6 +51,35 @@
                         <td><strong>提现到账时间</strong></td>
                         <td>{{ platform.cashTime }}</td>
                     </tr>
+
+                    {% if company %}
+                        <tr>
+                            <td><strong>公司名称</strong></td>
+                            <td>{{ company.companyName }}</td>
+                            <td><strong>法人代表</strong></td>
+                            <td>{{ company.legalRepresentative }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>QQ</strong></td>
+                            <td>{{ company.QQ }}</td>
+                            <td><strong>客服电话</strong></td>
+                            <td>{{ company.phoneCustomer }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>联系地址</strong></td>
+                            <td>{{ company.address }}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><strong>平台特色</strong></td>
+                            <td>{{ company.noteSpecial|safe }}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                    {% endif %}
+
                     </table>
             </div>
             <div class="row">
@@ -59,6 +88,7 @@
                     <li><a href="#onPerson" data-toggle="tab">高管团队</a></li>
                     <li><a href="#onProduct" data-toggle="tab">最新产品</a></li>
                     <li><a href="#onReview" data-toggle="tab">网友评论</a></li>
+
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="onPlatform">
