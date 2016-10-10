@@ -198,7 +198,7 @@ def updateNews():
     form = NewsUpdateForm()
     if form.validate_on_submit():
         """处理post数据"""
-
+        print 'id:-----------------%s------------------'%(form.id.data)
         news = News(id = form.id.data,
                     title = form.title.data,
                     content = form.content.data,
@@ -210,7 +210,7 @@ def updateNews():
                     url_crawl = form.url_crawl.data)
         db.session.add(news)
         db.session.commit()
-
+	return '<h1>yes</h1>'
     return render_template('update_news.html',form=form)
 
 @main.route('/news/delete/<string:id>')
