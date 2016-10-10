@@ -162,8 +162,7 @@ def news():
     keywords = request.args.get('keywords')
     if not keywords:
         """关键词为空"""
-        pagination = News.query.order_by(News.date_publish.desc()).limit(200).\
-            paginate(page,current_app.config['NEWS_PER_PAGE'],False)
+        pagination = News.query.order_by(News.date_publish.desc()).paginate(page,current_app.config['NEWS_PER_PAGE'],False)
 
     else:
         """关键词不为空"""
@@ -196,8 +195,9 @@ def news_detail(id):
 def updateNews():
     """更新新闻数据，api上线前作为过渡方案"""
     form = NewsUpdateForm()
+    '''
     if form.validate_on_submit():
-        """处理post数据"""
+        
         print 'id:-----------------%s------------------'%(form.id.data)
         news = News(id = form.id.data,
                     title = form.title.data,
@@ -210,7 +210,25 @@ def updateNews():
                     url_crawl = form.url_crawl.data)
         db.session.add(news)
         db.session.commit()
-	return '<h1>yes</h1>'
+        return redirect(url_for('main.news'))
+        '''
+    if request.method == 'POST':
+        pass
+        print '收到post请求'
+        news = News(id = request.form['id'],
+                    title = request.form['title'],
+                    content = request.form['content'],
+                    date_publish = request.form['date_publish'],
+                    date_crawl = request.form['date_crawl'],
+                    agency_source = request.form['agency_source'],
+                    author_source = request.form['author_source'],
+                    url_source = request.form['url_source'],
+                    url_crawl = request.form['url_crawl']
+                    )
+        db.session.add(news)
+        db.session.commit()
+        return redirect(url_for('main.news'))
+
     return render_template('update_news.html',form=form)
 
 @main.route('/news/delete/<string:id>')
