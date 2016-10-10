@@ -5,7 +5,10 @@
 模型
 """
 
+from werkzeug.security import generate_password_hash,check_password_hash
+
 from . import db
+
 
 class Law(db.Model):
     __tablename__ = 'law'
@@ -104,7 +107,32 @@ class Case(db.Model):
     keyword = db.Column(db.Text) # 本案关键词
     notes = db.Column(db.Text) # 备注
 
+class User(db.Model):
+    """用户模型"""
+    __tablename__ = 'users'
 
+    id = db.Column(db.Integer,primary_key=True)
+    username = db.Column(db.String(128),index=True,unique=True) # 用户名,唯一
+    email = db.Column(db.String(128),index=True,unique=True) # 注册邮箱,唯一
+    password_hash = db.Column(db.String(128),index=True) # 密码摘要
+    status = db.Column(db.String(32),default=False) # 用户状态,默认未激活
+    role_id = db.Column(db.Integer,db.ForeignKey('roles.id')) # 外键,角色id
+
+    @property # 方法转化为属性,可以用.访问
+    def password(self):
+        raise AttributeError('password is not a readable attribute')
+
+    
+
+class Role(db.Model):
+    """角色模型"""
+    __tablename__ = 'roles'
+
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(32),unique=True,index=True) # 角色名称,唯一
+    # 同一角色对应的用户对象列表,backref向User模型添加role属性
+    # role属性可以替代外键role_id访问Role模型
+    users = db.relationship('User',backref='role')
 
 
 
