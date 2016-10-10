@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    {{ super() }}
+    <div class="container">
+        <div class="page-header">
+
+        </div>
+        <div class="panel-body">
+            <p>
+                {{ news.title }}
+            </p>
+            <p>
+                {{ news.date_publish }}
+            </p>
+            <p>
+                {{ news.agency_source }}
+            </p>
+            <p>
+                {{ news.author_source }}
+            </p>
+        </div>
+        <div class="panel-body">
+            {{ news.content|safe }}
+        </div>
+    </div>
+{% endblock %}

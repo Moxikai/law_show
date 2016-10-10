@@ -7,7 +7,7 @@
             <div class="col-lg-2"></div>
             <div class="col-lg-8"></div>
             <div class="row">
-                <div class="page-header"><h3>基本信息</h3></div>
+                <div class="page-header"><h3>{{ platform.name }}</h3></div>
                 <table class="table table-hover table-striped">
                     <tr>
                         <td><strong>注册资金</strong></td>
@@ -29,7 +29,7 @@
                     </tr>
                     <tr>
                         <td><strong>平台网址</strong></td>
-                        <td>{{ platform.url }}</td>
+                        <td><a href="{{ url }}">{{ url }}</a></td>
                         <td><strong>保障方式</strong></td>
                         <td>{{ platform.safeguardWay }}</td>
                     </tr>
@@ -98,14 +98,14 @@
                         {{ platform.manageTeam|safe}}
                     </div>
                     <div class="tab-pane" id="onReview">
-                        <p>评论列表</p>
+                        <p>暂缺数据</p>
                     </div>
                     <div class="tab-pane" id="onProduct">
                         <table class="table table-hover">
                             {% for p in products %}
                             <tr class="product">
                                 <td><p>{{ p.name }}</p></td>
-                                <td><p>年化{{ p.annualizedReturn }}</p></td>
+                                <td><p>年化{{ p.annualizedReturn }}<e>%</e></p></td>
                                 <td><p>{{ p.cycle }}个月</p></td>
                                 <td><p>{{ p.remainAmount }}</p></td>
                             </tr>

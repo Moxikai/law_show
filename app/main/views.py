@@ -11,9 +11,9 @@ sys.setdefaultencoding('utf-8')
 from flask import render_template,request,session,redirect,url_for,current_app,\
     abort,flash
 
-from ..forms import LawForm
+from ..forms import LawForm,NewsForm,NewsUpdateForm
 from . import main
-from ..models import Law,Platform,Product,Company
+from ..models import Law,Platform,Product,Company,News,Case
 from .. import db
 
 
@@ -110,7 +110,7 @@ def detail(id):
 @main.route('/platform')
 def platform_list():
 
-    platforms = Platform.query.all()
+    platforms = Platform.query.order_by(Platform.gradeFromThird.asc()).all()
     #获取公司信息列表
     companys = Company.query.all()
     id_list = [company.platform_id for company in companys]
@@ -134,6 +134,7 @@ def platform(id):
                            platform = platform,
                            products = products,
                            company = company,
+                           url = 'http://%s'%(platform.url),
                            )
     #else:
         #return abort(500)
@@ -142,7 +143,83 @@ def platform(id):
 def test():
     return render_template('test.html')
 
+@main.route('/news',methods=["GET","POST"])
+def news():
+    """新闻资讯首页"""
+    form = NewsForm() # 实例化表单
+    if form.validate_on_submit():
+        """接收post数据"""
+        keywords = form.keyword.data
+        return redirect(url_for('main.news',keywords=keywords,page=1))
 
+    #获取页码
+    page = request.args.get('page')
+    if not page:
+        page = 1 # 默认第一页
+    else:
+        page = int(page) # 转换成数字
+    #获取查询关键词
+    keywords = request.args.get('keywords')
+    if not keywords:
+        """关键词为空"""
+        pagination = News.query.order_by(News.date_publish.desc()).limit(200).\
+            paginate(page,current_app.config['NEWS_PER_PAGE'],False)
+
+    else:
+        """关键词不为空"""
+        #提取关键词
+        keyword_list = keywords.split(' ')
+        obj = News.query # 初始查询
+        for keyword in keyword_list:
+            if keyword:
+                keyword = unicode('%'+keyword+'%')
+                obj = obj.filter(News.content.like(keyword))
+        obj = obj.order_by(News.date_publish.desc()) # 按照发布时间降序排列
+        pagination = obj.paginate(page,current_app.config['NEWS_PER_PAGE'],False)
+
+    news_list = pagination.items
+
+    if news_list:
+        return render_template('news_list.html', news_list=news_list, pagination=pagination,form=form)
+    else:
+        flash('没有搜索到新闻资讯，请减少关键词重新搜索')
+        return render_template('news_list.html', news_list=news_list, pagination=pagination, form=form)
+
+@main.route('/news/<string:id>')
+def news_detail(id):
+    """资讯详情"""
+    news = News.query.get_or_404(id)
+    return render_template('news_detail.html',news=news)
+
+
+@main.route('/news/update',methods=['GET','POST'])
+def updateNews():
+    """更新新闻数据，api上线前作为过渡方案"""
+    form = NewsUpdateForm()
+    if form.validate_on_submit():
+        """处理post数据"""
+
+        news = News(id = form.id.data,
+                    title = form.title.data,
+                    content = form.content.data,
+                    date_publish = form.date_publish.data,
+                    date_crawl = form.date_crawl.data,
+                    agency_source = form.agency_source.data,
+                    author_source = form.author_source.data,
+                    url_source = form.url_source.data,
+                    url_crawl = form.url_crawl.data)
+        db.session.add(news)
+        db.session.commit()
+
+    return render_template('update_news.html',form=form)
+
+@main.route('/news/delete/<string:id>')
+def deleteNews(id):
+    """删除新闻记录"""
+    news = News.query.get_or_404(id)
+    db.session.delete(news)
+    flash('新闻记录已删除成功')
+    return redirect(url_for('main.news'))
 
 
 

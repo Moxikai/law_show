@@ -70,6 +70,40 @@ class Company(db.Model):
     noteSpecial = db.Column(db.Text)
     platform_id = db.Column(db.String(48),db.ForeignKey('platform.id'))
 
+class News(db.Model):
+    """新闻资讯模型"""
+    __tablename__ = 'newses'
+
+    id = db.Column(db.String(128),primary_key=True)
+    title = db.Column(db.String(128),index=True) # 标题
+    content = db.Column(db.Text) # 内容
+    date_publish = db.Column(db.String(32),index=True) # 发布日期
+    date_crawl = db.Column(db.String(32),index=True) # 收录日期
+    agency_source = db.Column(db.String(128),index=True) # 版权所有
+    author_source = db.Column(db.String(64),index=True) # 作者
+    url_source = db.Column(db.String(128)) # 网址
+    url_crawl = db.Column(db.Text) # 收录网址
+    status = db.Column(db.String(32),default=0) # 状态
+
+class Case(db.Model):
+    """案例模型"""
+    __tablename__ = 'cases'
+
+    id = db.Column(db.Integer,primary_key=True)
+    title = db.Column(db.String(128),index=True) # 标题
+    date = db.Column(db.String(128),index=True) # 时间
+    location = db.Column(db.String(128),index=True) # 涉案地点
+    persons_involved = db.Column(db.String(128),index=True) # 涉案人员
+    company_involved = db.Column(db.String(128),index=True) # 公司信息
+    means_description = db.Column(db.Text) # 诈骗手法描述
+    victims = db.Column(db.String(128)) # 被害人信息
+    momeny_involved = db.Column(db.String(128),index=True) # 涉案金额及描述
+    agency = db.Column(db.String(128),index=True) # 执法机关
+    courts = db.Column(db.String(128),index=True) # 判决机构
+    sentence = db.Column(db.Text) # 判决结果
+    keyword = db.Column(db.Text) # 本案关键词
+    notes = db.Column(db.Text) # 备注
+
 
 
 
