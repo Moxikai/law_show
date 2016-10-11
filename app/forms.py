@@ -48,4 +48,12 @@ class CaseForm(Form):
     keywords = TextAreaField('关键词',validators=[DataRequired()])
     submit = SubmitField('提交')
 
+class AreaUpdateForm(Form):
+    """更新到区县行政区划"""
+    code = StringField('行政区划代码',validators=[DataRequired()])
+    area_name = StringField('地区名称',validators=[DataRequired()])
+    level = StringField('层级',validators=[DataRequired()])
+    code_highlevel = StringField('上级代码')
+    submit = SubmitField('submit')
+
 

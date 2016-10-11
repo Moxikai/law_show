@@ -11,9 +11,9 @@ sys.setdefaultencoding('utf-8')
 from flask import render_template,request,session,redirect,url_for,current_app,\
     abort,flash
 
-from ..forms import LawForm,NewsForm,NewsUpdateForm,CaseForm
+from ..forms import LawForm,NewsForm,NewsUpdateForm,CaseForm,AreaUpdateForm
 from . import main
-from ..models import Law,Platform,Product,Company,News,Case
+from ..models import Law,Platform,Product,Company,News,Case,Area
 from .. import db
 
 
@@ -195,23 +195,6 @@ def news_detail(id):
 def updateNews():
     """更新新闻数据，api上线前作为过渡方案"""
     form = NewsUpdateForm()
-    '''
-    if form.validate_on_submit():
-        
-        print 'id:-----------------%s------------------'%(form.id.data)
-        news = News(id = form.id.data,
-                    title = form.title.data,
-                    content = form.content.data,
-                    date_publish = form.date_publish.data,
-                    date_crawl = form.date_crawl.data,
-                    agency_source = form.agency_source.data,
-                    author_source = form.author_source.data,
-                    url_source = form.url_source.data,
-                    url_crawl = form.url_crawl.data)
-        db.session.add(news)
-        db.session.commit()
-        return redirect(url_for('main.news'))
-        '''
     if request.method == 'POST':
         pass
         print '收到post请求'
@@ -281,7 +264,31 @@ def news_handle(id):
     return render_template('news_handle.html',form=form,news=news)
 
 
+@main.route('/area/update',methods=['GET','POST'])
+def updateArea():
+    """更新行政区划"""
+    form = AreaUpdateForm()
+    if request.method == 'POST':
+        print '收到post请求'
+        area = Area(code = request.form['code'],
+                    area_name = request.form['area_name'],
+                    level = int(request.form['level']),
+                    code_highlevel = request.form['code_highlevel'],
+                    )
+        try:
+            db.session.add(area)
+            db.session.commit()
+            flash('行政区划已更新')
+        except Exception as e:
+            print '当前出错:',area.area_name,area.code,'\n',e
+            area_check = Area.query.filter_by(code=area.code).first()
+            if area_check:
+                print '以上记录存在,重复导致错误'
+            else:
+                print '以上记录并不存在,请检查错误原因'
+        return redirect(url_for('main.updateArea'))
 
+    return render_template('area_update.html',form=form)
 
 
 

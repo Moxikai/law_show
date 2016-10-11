@@ -159,7 +159,7 @@ class Area(db.Model):
 
     id = db.Column(db.Integer,primary_key=True) # 系统默认键
     code = db.Column(db.String(32),unique=True,index=True) # 行政区划代码
-    area_name = db.Column(db.String(32),unique=True,index=True) # 名称
+    area_name = db.Column(db.String(32),index=True) # 名称
     level = db.Column(db.Integer) # 行政区划层级
     code_highlevel = db.Column(db.Integer) # 上级行政代码
 

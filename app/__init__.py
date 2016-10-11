@@ -18,7 +18,7 @@ moment = Moment()
 db = SQLAlchemy()
 login_manager = LoginManager()
 # 保护级别设为strong,记录ip和代理信息,发现异常登出
-login_manager.session_protection = 'strong'
+login_manager.session_protection = 'basic'
 # 设置登录视图
 login_manager.login_view = 'auth.login'
 
