@@ -15,7 +15,7 @@
         </div>
     <!--列表开始-->
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                  <div class="panel-body">
                 {% if news_list %}
                     <ul class="news-list">
@@ -24,9 +24,11 @@
                             <p>
                                 <a href="{{ url_for('main.news_detail',id=news.id) }}">{{ news.title }}</a>
                             </p>
+                            <!---未发布功能
                             <p>
                                 <a href="{{ url_for('main.deleteNews',id=news.id) }}">删除</a>
                             </p>
+                            --->
                             <p>
                                 {{ news.date_publish }}
                             </p>

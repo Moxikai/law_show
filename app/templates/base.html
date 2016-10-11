@@ -19,20 +19,23 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="/">搜索</a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('main.platform_list') }}">理财平台</a>
+                        <a href="/">法律法规</a>
                     </li>
                     <li>
                         <a href="{{ url_for('main.news') }}">新闻资讯</a>
                     </li>
                     <li>
+                        <a href="{{ url_for('main.platform_list') }}">理财平台</a>
+                    </li>
+                    <!---
+                    <li>
                         <a href="#">经典案例</a>
                     </li>
+
                      <li>
                         <a href="{{ url_for('main.updateNews') }}">更新新闻</a>
                     </li>
+                    -->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if current_user.is_authenticated %}
