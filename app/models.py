@@ -95,6 +95,7 @@ class News(db.Model):
     url_source = db.Column(db.String(128)) # 网址
     url_crawl = db.Column(db.Text) # 收录网址
     status = db.Column(db.String(32),default=0) # 状态
+    cases = db.relationship('Case',backref='news')
 
 class Case(db.Model):
     """案例模型"""
@@ -113,6 +114,7 @@ class Case(db.Model):
     courts = db.Column(db.String(128),index=True) # 判决机构
     sentence = db.Column(db.Text) # 判决结果
     keyword = db.Column(db.Text) # 本案关键词
+    news_id = db.Column(db.Integer,db.ForeignKey('newses.id'))
     notes = db.Column(db.Text) # 备注
 
 class User(UserMixin,db.Model):

@@ -11,7 +11,7 @@ sys.setdefaultencoding('utf-8')
 from flask import render_template,request,session,redirect,url_for,current_app,\
     abort,flash
 
-from ..forms import LawForm,NewsForm,NewsUpdateForm
+from ..forms import LawForm,NewsForm,NewsUpdateForm,CaseForm
 from . import main
 from ..models import Law,Platform,Product,Company,News,Case
 from .. import db
@@ -238,6 +238,53 @@ def deleteNews(id):
     db.session.delete(news)
     flash('新闻记录已删除成功')
     return redirect(url_for('main.news'))
+
+@main.route('/news/handle/<string:id>',methods=["GET","POST"])
+def news_handle(id):
+    """案例整理"""
+    form = CaseForm()
+    news = News.query.get_or_404(id)
+    if request.method == 'POST':
+        print '检测到post数据'
+        case = Case(title = request.form['title'],
+                    date = request.form['date'],
+                    location = request.form['location'],
+                    persons_involved = request.form['persons_involved'],
+                    company_involved = request.form['company_involved'],
+                    means_description = request.form['means_description'],
+                    victims = request.form['victims'],
+                    momeny_involved = request.form['momeny_involved'],
+                    agency = request.form['agency'],
+                    courts = request.form['courts'],
+                    sentence = request.form['sentence'],
+                    keyword = request.form['keywords'],
+                    news_id = id)
+        db.session.add(case)
+        db.session.commit()
+        flash('案例已提交！')
+        return redirect(url_for('main.news_handle',id=id))
+    # 是否有对应整理的案例
+    case = Case.query.filter_by(news_id=id).first()
+    if case:
+        form.title.data = case.title
+        form.date.data = case.date
+        form.location.data = case.location
+        form.persons_involved.data = case.persons_involved
+        form.company_involved.data = case.company_involved
+        form.means_description.data = case.means_description
+        form.victims.data = case.victims
+        form.momeny_involved.data = case.momeny_involved
+        form.agency.data = case.agency
+        form.courts.data = case.courts
+        form.sentence.data = case.sentence
+        form.keywords.data = case.keyword
+    return render_template('news_handle.html',form=form,news=news)
+
+
+
+
+
+
 
 
 

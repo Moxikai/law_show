@@ -32,3 +32,20 @@ class NewsUpdateForm(Form):
     url_crawl = StringField('url_crawl',validators=[DataRequired()])
     submit = SubmitField('submit')
 
+class CaseForm(Form):
+    """案例表单"""
+    title = StringField('标题',validators=[DataRequired()])
+    date = StringField('时间',validators=[DataRequired()])
+    location = StringField('地区',validators=[DataRequired()])
+    persons_involved = StringField('涉案人员',validators=[DataRequired()])
+    company_involved = StringField('公司信息',validators=[DataRequired()])
+    means_description = TextAreaField('诈骗手段',validators=[DataRequired()])
+    victims = StringField('受害人',validators=[DataRequired()])
+    momeny_involved = StringField('涉案金额',validators=[DataRequired()])
+    agency = StringField('执法机关',validators=[DataRequired()])
+    courts = StringField('宣判法院',validators=[DataRequired()])
+    sentence = TextAreaField('判决结果',validators=[DataRequired()])
+    keywords = TextAreaField('关键词',validators=[DataRequired()])
+    submit = SubmitField('提交')
+
+

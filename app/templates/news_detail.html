@@ -11,6 +11,11 @@
         <div class="panel-body">
             <p>
                 <h3>{{ news.title }}</h3>
+                <div class="btn-default">
+                    <a href="{{ url_for('main.news_handle',id=news.id) }}">
+                        整理
+                    </a>
+                </div>
             </p>
             <p>
                 {{ news.date_publish }}

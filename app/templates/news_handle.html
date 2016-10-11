@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+    {{ super() }}
+    <!----整体按照选项卡：新闻资讯、案例提交两部分---->
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li><a href="#news" data-toggle="tab">参考资讯</a></li>
+            <li><a href="#case" data-toggle="tab">案例提交</a></li>
+        </ul>
+
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="tab-content">
+                    <!---新闻部分---->
+                    <div class="tab-pane active" id="news">
+                        <div class="page-header">
+                            <h3>{{ news.title }}</h3>
+                            <p>{{ news.author_source }}</p>
+                            <p>{{ news.date_publish }}</p>
+                            <p>{{ news.agency_source }}</p>
+                        </div>
+                        <div class="body">
+                            {{ news.content|safe }}
+                        </div>
+
+                    </div>
+                    <!----案例提交部分---->
+                    <div class="tab-pane" id="case">
+                        {{ wtf.quick_form(form) }}
+                    </div>
+            </div>
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}
