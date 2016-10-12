@@ -48,4 +48,19 @@ class CaseForm(Form):
     keywords = TextAreaField('关键词',validators=[DataRequired()])
     submit = SubmitField('提交')
 
+class DocumentUpdateForm(Form):
+    """更新文书表单"""
+    title = StringField('标题',)
+    types = StringField('类型',)
+    court = StringField('审理法院',)
+    document_code = StringField('文书号')
+    document_type = StringField('文书类型')
+    conclusion_date = StringField('审结日期')
+    proceeding = StringField('审理程序')
+    judgment = TextAreaField('审判结果')
+    area_first = StringField('省')
+    area_second = StringField('市')
+    url = StringField('链接')
+    submit = SubmitField('submit')
+
 

@@ -11,9 +11,9 @@ sys.setdefaultencoding('utf-8')
 from flask import render_template,request,session,redirect,url_for,current_app,\
     abort,flash
 
-from ..forms import LawForm,NewsForm,NewsUpdateForm,CaseForm
+from ..forms import LawForm,NewsForm,NewsUpdateForm,CaseForm,DocumentUpdateForm
 from . import main
-from ..models import Law,Platform,Product,Company,News,Case
+from ..models import Law,Platform,Product,Company,News,Case,Document
 from .. import db
 
 
@@ -279,6 +279,32 @@ def news_handle(id):
         form.sentence.data = case.sentence
         form.keywords.data = case.keyword
     return render_template('news_handle.html',form=form,news=news)
+
+@main.route('/document/update',methods=['GET','POST'])
+def documentUpdate():
+    """更新文书接口"""
+    form = DocumentUpdateForm()
+    if request.method == 'POST':
+
+        document = Document(title=request.form['title'],
+                            types=request.form['types'],
+                            court=request.form['court'],
+                            document_code=request.form['document_code'],
+                            document_type=request.form['document_type'],
+                            conclusion_date=request.form['conclusion_date'],
+                            proceeding=request.form['proceeding'],
+                            judgment=request.form['judgment'],
+                            area_first=request.form['area_first'],
+                            area_second=request.form['area_second'],
+                            url=request.form['url'],
+                            )
+        db.session.add(document)
+        db.session.commit()
+        return '<h1>SUCCESS</h1>',200
+
+
+    return render_template('document_update.html',form=form)
+
 
 
 
