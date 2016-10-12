@@ -152,6 +152,22 @@ class Role(db.Model):
     # role属性可以替代外键role_id访问Role模型
     users = db.relationship('User',backref='role')
 
+class Document(db.Model):
+    """宣判文书模型"""
+    __tablename__ = 'documents'
+
+    id = db.Column(db.Integer,primary_key=True)
+    title = db.Column(db.String(128),index=True) # 文书标题
+    types = db.Column(db.String(128),index=True) # 类型
+    court = db.Column(db.String(128),index=True) # 宣判法院
+    document_code = db.Column(db.String(128),index=True) # 文书号
+    document_type = db.Column(db.String(128),index=True) # 文书类型
+    conclusion_date = db.Column(db.String(32),index=True) # 审结时间
+    proceeding = db.Column(db.String(32),index=True) # 审理程序
+    judgment = db.Column(db.Text) # 审判结果，描述
+    area_first = db.Column(db.String(32),index=True) # 一级行政区域，省，直辖市
+    area_second = db.Column(db.String(32),index=True) # 二级行政区域，市，区县
+    url = db.Column(db.String(128),index=True) # 链接
 
 
 if __name__ == '__main__':
