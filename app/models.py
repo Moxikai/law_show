@@ -103,7 +103,8 @@ class Case(db.Model):
 
     id = db.Column(db.Integer,primary_key=True)
     title = db.Column(db.String(128),index=True) # 标题
-    date = db.Column(db.String(128),index=True) # 时间
+    date_start = db.Column(db.String(32),index=True) # 起始日期
+    date_end = db.Column(db.String(32),index=True) # 截止日期
     location = db.Column(db.String(128),index=True) # 涉案地点
     persons_involved = db.Column(db.String(128),index=True) # 涉案人员
     company_involved = db.Column(db.String(128),index=True) # 公司信息
@@ -152,6 +153,7 @@ class Role(db.Model):
     # role属性可以替代外键role_id访问Role模型
     users = db.relationship('User',backref='role')
 
+
 class Document(db.Model):
     """宣判文书模型"""
     __tablename__ = 'documents'
@@ -169,6 +171,15 @@ class Document(db.Model):
     area_second = db.Column(db.String(32),index=True) # 二级行政区域，市，区县
     url = db.Column(db.String(128),index=True) # 链接
 
+class Area(db.Model):
+    """行政区划模型"""
+    __tablename__ = 'areas'
+
+    id = db.Column(db.Integer,primary_key=True) # 系统默认键
+    code = db.Column(db.String(32),unique=True,index=True) # 行政区划代码
+    area_name = db.Column(db.String(32),index=True) # 名称
+    level = db.Column(db.Integer) # 行政区划层级
+    code_highlevel = db.Column(db.Integer) # 上级行政代码
 
 if __name__ == '__main__':
     pass
