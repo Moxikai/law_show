@@ -11,7 +11,7 @@ sys.setdefaultencoding('utf-8')
 from flask import render_template,request,session,redirect,url_for,current_app,\
     abort,flash
 
-from ..forms import LawForm,NewsForm,NewsUpdateForm,CaseForm,DocumentUpdateForm
+from ..forms import LawForm,NewsForm,NewsUpdateForm,CaseForm,DocumentUpdateForm,DocumentsSearchForm
 from . import main
 from ..models import Law,Platform,Product,Company,News,Case,Document
 from .. import db
@@ -304,6 +304,56 @@ def documentUpdate():
 
 
     return render_template('document_update.html',form=form)
+
+
+@main.route('/document',methods=['GET','POST'])
+def document_index():
+    """文书展示，查询视图"""
+    form = DocumentsSearchForm() # 实例化表单
+
+    if form.validate_on_submit():
+        """处理post数据"""
+        type = form.type.data
+        keywords = form.keywords.data
+        return redirect(url_for('main.document_index',page=1,type=type,keywords=keywords))
+
+    """处理查询参数"""
+    page = request.args.get('page') # 页码
+    if page:
+        page = int(page)
+    else:
+        page = 1  # 默认第一页
+    type = request.args.get('type') # 查询类型
+    if not type:
+        type = 'title'  # 默认全文搜索
+    keywords = request.args.get('keywords') # 查询关键词
+    if keywords:
+        keyword_list = keywords.split(' ')
+        keyword_list = [keyword for keyword in keyword_list if keyword]  # 去除空白元素
+    else:
+        keyword_list = [] # 默认空白
+    """处理数据查询"""
+    obj = Document.query # 初始查询
+    if keyword_list:
+        for keyword in keyword_list:
+            keyword = unicode('%' + keyword + '%')
+            if type == 'title':
+                obj = obj.filter(Document.title.like(keyword))
+            elif type == 'full_content':
+                obj = obj.filter(Document.judgment.like(keyword))
+    # 计算查询结果数量
+    count = obj.count()
+    # 排序操作、分页,默认按照审结日期降序排列
+    pagination = obj.order_by(Document.conclusion_date.desc()).\
+        paginate(page,current_app.config['DOCUMENTS_PER_PAGE'],False)
+    document_list = pagination.items
+    return render_template('document_index.html',form=form,pagination=pagination,count=count,document_list=document_list)
+
+
+
+
+
+
 
 
 

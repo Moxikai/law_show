@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% import '_macros.html' as macros %}
+
+{% block content %}
+    {{ super() }}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <!--搜索表单-->
+                <div class="page-header">
+
+                    {{ wtf.quick_form(form) }}
+                </div>
+            </div>
+        </div>
+        <!--主体-->
+        <div class="row">
+            <div class="col-md-8">
+                <span>
+                    <h5>本次查询共{{ count }}条数据</h5>
+                </span>
+                <div>
+                    {% if document_list %}
+                        <ul class="document-list">
+                            <!--文书列表-->
+                            {% for document in document_list %}
+                                <span>
+                                    <a href="#">{{ document.title }}</a>
+                                </span>
+                                <span>
+                                    <p>{{ document.conclusion_date }}</p>
+                                </span>
+                            {% endfor %}
+                        </ul>
+                        <!---页码导航--->
+                        <div class="pagination">
+                            {{ macros.pagination_widget(pagination,'main.document_index') }}
+                        </div>
+                    {% else %}
+                    <h1>没有搜索到数据</h1>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

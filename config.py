@@ -22,6 +22,7 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI') or 'sqlite:///'+os.path.join(baseDir,'data-dev.db')
     ARTICLE_PER_PAGE = 12
     NEWS_PER_PAGE = 10
+    DOCUMENTS_PER_PAGE = 10
 
 #生产配置
 class ProductionConfig(Config):

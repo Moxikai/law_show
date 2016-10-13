@@ -6,7 +6,7 @@
 """
 
 from flask_wtf import Form
-from wtforms import StringField,SubmitField,TextAreaField,validators
+from wtforms import StringField,SubmitField,TextAreaField,validators,RadioField
 from wtforms.validators import DataRequired
 
 class LawForm(Form):
@@ -62,5 +62,13 @@ class DocumentUpdateForm(Form):
     area_second = StringField('市')
     url = StringField('链接')
     submit = SubmitField('submit')
+
+class DocumentsSearchForm(Form):
+    """通用搜索表单"""
+    type = StringField('类型') # 搜索类型
+    keywords = StringField('全文',validators=[DataRequired()]) # 搜索内容
+    submit = SubmitField('submit') # 提交
+
+
 
 
