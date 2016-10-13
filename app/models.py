@@ -169,7 +169,7 @@ class Document(db.Model):
     judgment = db.Column(db.Text) # 审判结果，描述
     area_first = db.Column(db.String(32),index=True) # 一级行政区域，省，直辖市
     area_second = db.Column(db.String(32),index=True) # 二级行政区域，市，区县
-    url = db.Column(db.String(128),index=True) # 链接
+    url = db.Column(db.String(128),index=True,unique=True) # 链接
 
 class Area(db.Model):
     """行政区划模型"""
