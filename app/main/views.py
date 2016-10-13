@@ -349,6 +349,12 @@ def document_index():
     document_list = pagination.items
     return render_template('document_index.html',form=form,pagination=pagination,count=count,document_list=document_list)
 
+@main.route('/document/<int:id>')
+def document_detail(id):
+    """文书详情"""
+    document = Document.query.get_or_404(id)
+    return render_template('document_detail.html',document=document)
+
 
 
 

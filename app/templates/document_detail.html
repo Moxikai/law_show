@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="page-header">
+                    <span><h2>{{ document.title }}</h2></span>
+                </div>
+                <div class="page-header">
+                    <span><p>{{ document.types }}</p></span>
+                    <span><p>{{ document.court }}</p></span>
+                    <span><p>{{ document.document_code }}</p></span>
+                    <span><p>{{ document.document_type }}</p></span>
+                    <span><p>{{ document.conclusion_date }}</p></span>
+                    <span><p>{{ document.proceeding }}</p></span>
+                </div>
+                <div>{{ document.judgment|safe }}</div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
