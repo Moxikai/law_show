@@ -95,7 +95,7 @@ class News(db.Model):
     url_source = db.Column(db.String(128)) # 网址
     url_crawl = db.Column(db.Text) # 收录网址
     status = db.Column(db.String(32),default=0) # 状态
-    cases = db.relationship('Case',backref='news')
+    case_list = db.relationship('Case',backref='news')
 
 class Case(db.Model):
     """案例模型"""
