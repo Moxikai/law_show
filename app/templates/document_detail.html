@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {{ super() }}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="page-header">
+                    <ul>
+                        <li>
+                            <span>案件标题:</span>
+                            <span>{{ document.title }}</span>
+                        </li>
+                        <li>
+                            <span>案由:</span>
+                            <span>{{ document.types }}</span>
+                        </li>
+                        <li>
+                            <span>审理机构:</span>
+                            <span>{{ document.court }}</span>
+                        </li>
+                        <li>
+                            <span>文书字号:</span>
+                            <span>{{ document.document_code }}</span>
+                            <span>文书类型:</span>
+                            <span>{{ document.document_type }}</span>
+                        </li>
+                        <li>
+                            <span>审结日期:</span>
+                            <span>{{ document.conclusion_date }}</span>
+                            <span>文书类型:</span>
+                            <span>{{ document.proceeding }}</span>
+                        </li>
+                        <li>
+                            <span>审理人员:</span>
+                            <span>{{ document.trial_person }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-body">
+                    <div class="title">
+                        <h2>{{ document.title }}</h2>
+                        <p>{{ document.document_type }}</p>
+                    </div>
+                    <div class="modal-content">
+                        {{ document.judgment }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

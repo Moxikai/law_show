@@ -318,10 +318,25 @@ def update_document():
 
     return render_template('document_update.html',form=form)
 
+@main.route('/document',methods=['GET','POST'])
+def document_index():
+    """判决文书首页"""
+    page = request.args.get('page')
+    if not page:
+        page = 1
+    else:
+        page = int(page)
 
+    pagination = Document.query.paginate(page,current_app.config['NEWS_PER_PAGE'],False)
+    document_list = pagination.items
 
+    return render_template('document_index.html',pagination=pagination,document_list=document_list)
 
-
+@main.route('/document/<string:id>',methods=['GET','POST'])
+def document_detail(id):
+    """判决文书详情"""
+    document = Document.query.get_or_404(id)
+    return render_template('document_detail.html',document=document)
 
 
 
