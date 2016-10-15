@@ -11,9 +11,9 @@ sys.setdefaultencoding('utf-8')
 from flask import render_template,request,session,redirect,url_for,current_app,\
     abort,flash
 
-from ..forms import LawForm,NewsForm,NewsUpdateForm,CaseForm,AreaUpdateForm
+from ..forms import LawForm,NewsForm,NewsUpdateForm,CaseForm,AreaUpdateForm,UpdateDocumentForm
 from . import main
-from ..models import Law,Platform,Product,Company,News,Case,Area
+from ..models import Law,Platform,Product,Company,News,Case,Area,Document
 from .. import db
 
 
@@ -290,6 +290,33 @@ def updateArea():
 
     return render_template('area_update.html',form=form)
 
+
+
+@main.route('/document/update',methods=['GET','POST'])
+def update_document():
+    """爬虫更新数据接口"""
+    form = UpdateDocumentForm()
+    if form.validate_on_submit():
+        """处理post数据"""
+        new_document = Document(id=form.id.data,
+                                url=form.url.data,
+                                title=form.title.data,
+                                location=form.location.data,
+                                types=form.types.data,
+                                court=form.court.data,
+                                document_code=form.document_code.data,
+                                document_type=form.document_type.data,
+                                conclusion_date=form.conclusion_date.data,
+                                proceeding=form.proceeding.data,
+                                trial_person=form.trial_person.data,
+                                judgment=form.judgment.data,
+                                )
+        db.session.add(new_document)
+        db.session.commit()
+        return '<h1>SUCCESS</h1>'
+
+
+    return render_template('document_update.html',form=form)
 
 
 

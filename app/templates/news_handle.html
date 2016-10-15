@@ -30,7 +30,63 @@
                     </div>
                     <!----案例提交部分---->
                     <div class="tab-pane" id="case">
-                        {{ wtf.quick_form(form) }}
+                        <form action method="post" class="form" role="form">
+                            <div class="form-horizontal">
+                                {{ form.csrf_token }}
+                                <div class="form-group">
+                                    {{ form.title.label(class="control-label col-md-2") }}
+                                    <div class="col-md-4">
+                                        {{ form.title(class="form-control",placeholder="案例标题") }}
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    {{ form.date_start.label }}{{ form.date_start }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.date_end.label }}{{ form.date_end }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.province.label }}{{ form.province }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.city.label }}{{ form.city }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.county.label }}{{ form.county }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.persons_involved.label }}{{ form.persons_involved }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.company_involved.label }}{{ form.company_involved }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.means_description.label }}{{ form.means_description }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.victims.label }}{{ form.victims }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.momeny_involved.label }}{{ form.momeny_involved }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.agency.label }}{{ form.agency }}
+                                </div>
+                                <div>
+                                    {{ form.courts.label }}{{ form.courts }}
+                                </div>
+                                <div>
+                                    {{ form.sentence.label }}{{ form.sentence }}
+                                </div>
+                                <div>
+                                    {{ form.keywords.label }}{{ form.keywords }}
+                                </div>
+
+                                <input type="submit" value="submit">
+                            </div>
+
+                        </form>
                     </div>
             </div>
             </div>

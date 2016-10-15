@@ -163,7 +163,22 @@ class Area(db.Model):
     level = db.Column(db.Integer) # 行政区划层级
     code_highlevel = db.Column(db.Integer) # 上级行政代码
 
+class Document(db.Model):
+    """判决文书"""
+    __tablename__="documents"
 
+    id = db.Column(db.String(128),primary_key=True) # url签名
+    url = db.Column(db.String(128),index=True) # 判决书网址
+    title = db.Column(db.String(128),index=True) # 标题
+    location = db.Column(db.String(128),index=True) # 区域
+    types = db.Column(db.String(128),index=True) # 定罪类型
+    court = db.Column(db.String(128),index=True) # 判决法院
+    document_code = db.Column(db.String(128),index=True) # 文书字号
+    document_type = db.Column(db.String(128),index=True) # 文书类型
+    conclusion_date = db.Column(db.String(64),index=True) # 审结日期
+    proceeding = db.Column(db.String(64),index=True) # 审理程序
+    trial_person = db.Column(db.String(64),index=True) # 审理人员
+    judgment = db.Column(db.Text,index=True) # 判决书正文
 
 
 if __name__ == '__main__':

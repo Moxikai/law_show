@@ -35,9 +35,12 @@ class NewsUpdateForm(Form):
 class CaseForm(Form):
     """案例表单"""
     title = StringField('标题',validators=[DataRequired()])
-    date = StringField('时间',validators=[DataRequired()])
-    location = StringField('地区',validators=[DataRequired()])
-    persons_involved = StringField('涉案人员',validators=[DataRequired()])
+    date_start = StringField('起始时间',validators=[DataRequired()]) # 起始日期
+    date_end = StringField('截止时间', validators=[DataRequired()]) # 截止日期
+    province = StringField('省',validators=[DataRequired()]) # 省
+    city = StringField('市',validators=[DataRequired()]) # 市
+    county = StringField('区县',validators=[DataRequired()]) # 区县
+    persons_involved = StringField('涉案人员',validators=[DataRequired()]) # 涉案人员
     company_involved = StringField('公司信息',validators=[DataRequired()])
     means_description = TextAreaField('诈骗手段',validators=[DataRequired()])
     victims = StringField('受害人',validators=[DataRequired()])
@@ -46,7 +49,7 @@ class CaseForm(Form):
     courts = StringField('宣判法院',validators=[DataRequired()])
     sentence = TextAreaField('判决结果',validators=[DataRequired()])
     keywords = TextAreaField('关键词',validators=[DataRequired()])
-    submit = SubmitField('提交')
+    #submit = SubmitField('提交')
 
 class AreaUpdateForm(Form):
     """更新到区县行政区划"""
@@ -56,4 +59,19 @@ class AreaUpdateForm(Form):
     code_highlevel = StringField('上级代码')
     submit = SubmitField('submit')
 
+class UpdateDocumentForm(Form):
+    """更新判决文书"""
+    id = StringField('id',validators=[DataRequired()])
+    url = StringField('url',validators=[DataRequired()])
+    title = StringField('title',validators=[DataRequired()])
+    location = StringField('location')
+    types = StringField('types',validators=[DataRequired()])
+    court = StringField('court')
+    document_code = StringField('document_code')
+    document_type = StringField('document_type')
+    conclusion_date = StringField('conclusion_date')
+    proceeding = StringField('proceeding')
+    trial_person = StringField('trial_person')
+    judgment = StringField('judgment')
+    submit = SubmitField('submit')
 
