@@ -180,6 +180,7 @@ class Document(db.Model):
     proceeding = db.Column(db.String(64),index=True) # 审理程序
     trial_person = db.Column(db.String(64),index=True) # 审理人员
     judgment = db.Column(db.Text,index=True) # 判决书正文
+    crawl_time = db.Column(db.String(32),index=True) # 收录时间
 
 
     @staticmethod
