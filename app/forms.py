@@ -62,10 +62,10 @@ class AreaUpdateForm(Form):
 class UpdateDocumentForm(Form):
     """更新判决文书"""
     id = StringField('id',validators=[DataRequired()])
-    url = StringField('url',validators=[DataRequired()])
-    title = StringField('title',validators=[DataRequired()])
+    url = StringField('url')
+    title = StringField('title')
     location = StringField('location')
-    types = StringField('types',validators=[DataRequired()])
+    types = StringField('types')
     court = StringField('court')
     document_code = StringField('document_code')
     document_type = StringField('document_type')

@@ -294,10 +294,12 @@ def updateArea():
 
 @main.route('/document/update',methods=['GET','POST'])
 def update_document():
-    """爬虫更新数据接口"""
+
     form = UpdateDocumentForm()
     if form.validate_on_submit():
-        """处理post数据"""
+
+        print '处理Post请求'
+
         new_document = Document(id=form.id.data,
                                 url=form.url.data,
                                 title=form.title.data,
@@ -313,7 +315,9 @@ def update_document():
                                 )
         db.session.add(new_document)
         db.session.commit()
-        return '<h1>SUCCESS</h1>'
+
+
+        return '<h1>%s</h1>'%(form.id)
 
 
     return render_template('document_update.html',form=form)
@@ -337,7 +341,5 @@ def document_detail(id):
     """判决文书详情"""
     document = Document.query.get_or_404(id)
     return render_template('document_detail.html',document=document)
-
-
 
 

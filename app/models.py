@@ -5,8 +5,9 @@
 模型
 """
 
+
 from werkzeug.security import generate_password_hash,check_password_hash
-from flask_login import UserMixin
+from flask_login import UserMixin,url_for
 from . import db
 from . import login_manager
 
@@ -179,6 +180,42 @@ class Document(db.Model):
     proceeding = db.Column(db.String(64),index=True) # 审理程序
     trial_person = db.Column(db.String(64),index=True) # 审理人员
     judgment = db.Column(db.Text,index=True) # 判决书正文
+
+
+    @staticmethod
+    def from_json(json_post):
+        pass
+        id = json_post.get('id')
+        url = json_post.get('url')
+        title = json_post.get('title')
+        location = json_post.get('location')
+        types = json_post.get('types')
+        court = json_post.get('court')
+        document_code = json_post.get('document_code')
+        document_type = json_post.get('document_type')
+        conclusion_date = json_post.get('conclusion_date')
+        proceeding = json_post.get('proceeding')
+        trial_person = json_post.get('trial_person')
+        judgment = json_post.get('judgment')
+        # 此处添加数据检查代码
+        return Document(id=id,
+                        url=url,
+                        title=title,
+                        location=location,
+                        types=types,
+                        court=court,
+                        document_code=document_code,
+                        document_type=document_type,
+                        conclusion_date=conclusion_date,
+                        proceeding=proceeding,
+                        trial_person=trial_person,
+                        judgment=judgment,
+                        )
+    def to_json(self):
+        json_document = {'url':url_for('main.document_detail',id=self.id),
+                         'title':self.title,
+                         'court':self.court}
+        return json_document
 
 
 if __name__ == '__main__':
