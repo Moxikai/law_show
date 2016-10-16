@@ -169,7 +169,7 @@ class Document(db.Model):
     __tablename__="documents"
 
     id = db.Column(db.String(128),primary_key=True) # url签名
-    url = db.Column(db.String(128),index=True) # 判决书网址
+    url_source = db.Column(db.String(128),index=True) # 判决书网址,原始链接
     title = db.Column(db.String(128),index=True) # 标题
     location = db.Column(db.String(128),index=True) # 区域
     types = db.Column(db.String(128),index=True) # 定罪类型
@@ -187,7 +187,7 @@ class Document(db.Model):
     def from_json(json_post):
         pass
         id = json_post.get('id')
-        url = json_post.get('url')
+        url_source = json_post.get('url_source')
         title = json_post.get('title')
         location = json_post.get('location')
         types = json_post.get('types')
@@ -198,9 +198,10 @@ class Document(db.Model):
         proceeding = json_post.get('proceeding')
         trial_person = json_post.get('trial_person')
         judgment = json_post.get('judgment')
+        crawl_time = json_post.get('crawl_time')
         # 此处添加数据检查代码
         return Document(id=id,
-                        url=url,
+                        url_source=url_source,
                         title=title,
                         location=location,
                         types=types,
@@ -211,6 +212,7 @@ class Document(db.Model):
                         proceeding=proceeding,
                         trial_person=trial_person,
                         judgment=judgment,
+                        crawl_time = crawl_time,
                         )
     def to_json(self):
         json_document = {'url':url_for('main.document_detail',id=self.id),
