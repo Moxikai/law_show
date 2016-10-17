@@ -5,7 +5,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-lg-6">
                 <div class="page-header">
                     <ul>
                         <li>
@@ -43,8 +43,8 @@
                         <h2>{{ document.title }}</h2>
                         <p>{{ document.document_type }}</p>
                     </div>
-                    <div class="modal-content">
-                        {{ document.judgment }}
+                    <div class="popover-content">
+                        {{ document.judgment|safe }}
                     </div>
                 </div>
             </div>
