@@ -1,29 +1,88 @@
 {% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
 {% import '_macros.html' as macros %}
+
+
 {% block content %}
     {{ super() }}
-    <!--此处添加搜索框-->
+
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <ul>
-                    {% for document in document_list %}
-                        <li>
-                            <div id="{{ document.id }}">
-                                <span><a class="#">{{ document.title }}</a></span>
-                                <span>宣判法院: {{ document.court }}</span>
-                                <span>审结日期: {{ document.conclusion_date }}</span>
-                            </div>
-                        </li>
+                <form class="form" role="form" method="post">
+                    {{ form.csrf_token() }}
+                    <!--设置默认值-->
+                    {{ form.type(value="title") }}
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="show-type">标题</button>
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" id="test">
+                                <li><a class="search-type" title="title">标题</a></li>
+                                <li><a class="search-type" title="full_content">全文</a></li>
+                            </ul>
 
-                    {% endfor %}
-                </ul>
-            <!--此处添加页码导航-->
-            <div class="pagination">
-                {{ macros.pagination_widget(pagination,'main.document_index') }}
-            </div>
+                        </div>
+                        <!--关键词输入框-->
+                        {{ form.keywords(class="form-control",placeholder="请输入关键词") }}
+                        <span class="input-group-btn">
+                            {{ form.submit(class="btn btn-primary",value="搜索") }}
+                        </span>
+                    </div>
+
+                </form>
+                <span>
+                    <h5>本次查询共{{ count }}条数据</h5>
+                </span>
             </div>
         </div>
+        <br>
+        <br>
+        <!--主体-->
+        <div class="row">
+            <div class="col-md-8">
+                <div>
+                    {% if document_list %}
+                        <ul class="document-list">
+                            <!--文书列表-->
+                            {% for document in document_list %}
+                                <span>
+                                    <a href="{{ url_for('main.document_detail',id=document.id) }}">{{ document.title }}</a>
+                                </span>
+                                <span>
+                                    <p>{{ document.conclusion_date }}</p>
+                                </span>
+                            {% endfor %}
+                        </ul>
+                        <!---页码导航--->
+                        <div class="pagination">
+                            {{ macros.pagination_widget(pagination,'main.document_index') }}
+                        </div>
+                    {% else %}
+                    <h1>没有搜索到数据</h1>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+   <script>
+        $(document).ready(function() {
+        $(".search-type").click(function(){
+            //|获取当前对象的 data id 属性值
+            var sel =$(this).html();
+            var v = $(this).attr("title");
+            $("#show-type").html(sel);
+            $("#type").attr('value',v);
+        });
+            });
+    </script>
 {% endblock %}

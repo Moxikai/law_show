@@ -6,7 +6,7 @@
 """
 
 from flask_wtf import Form
-from wtforms import StringField,SubmitField,TextAreaField,validators
+from wtforms import StringField,SubmitField,TextAreaField,HiddenField
 from wtforms.validators import DataRequired
 
 class LawForm(Form):
@@ -74,4 +74,11 @@ class UpdateDocumentForm(Form):
     trial_person = StringField('trial_person')
     judgment = StringField('judgment')
     submit = SubmitField('submit')
+
+
+class DocumentsSearchForm(Form):
+    """通用搜索表单"""
+    type = HiddenField() # 搜索类型，设置为隐藏字段
+    keywords = StringField('全文',validators=[DataRequired()]) # 搜索内容
+    submit = SubmitField('submit') # 提交
 

@@ -26,6 +26,7 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI') or 'sqlite:///'+os.path.join(baseDir,'data-dev.db')
     ARTICLE_PER_PAGE = 12
     NEWS_PER_PAGE = 10
+    DOCUMENTS_PER_PAGE = 10
     # 邮件服务器设置
     MAIL_SERVER = 'smtp.qq.com' # smtp服务器地址
     MAIL_PORT = 465 # 邮件服务器端口
