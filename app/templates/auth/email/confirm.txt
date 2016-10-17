@@ -1,0 +1,13 @@
+尊敬的 {{ user.username }},
+
+欢迎加入烽火台！
+
+确认账户请点击以下链接:
+
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+此致,
+
+烽火台团队
+
+备注：不必回复邮件，系统不会处理

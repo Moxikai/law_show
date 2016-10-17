@@ -4,12 +4,13 @@ auth蓝本视图
 """
 
 from flask import render_template,redirect,request,url_for,flash
-from flask_login import login_user,logout_user,login_required
+from flask_login import login_user,logout_user,login_required,current_user
 
 from . import auth
 from ..models import User
 from .forms import LoginForm,RegisterForm
 from .. import db
+from ..email import send_email
 
 @auth.route('/login',methods=["GET","POST"])
 def login():
@@ -45,10 +46,25 @@ def register():
                     )
         db.session.add(user)
         db.session.commit()
-        flash('请稍后登陆！')
-        return redirect(url_for('auth.login'))
+        token = user.generate_confirmation_token()
+        send_email(user.email,'激活账户',
+                   'auth/email/confirm',user=user,token=token)
+        flash('激活邮件已发送到您的邮箱！')
+        return redirect(url_for('main.index'))
     return render_template('auth/register.html',form=form)
 
+@auth.route('/confirm/<token>')
+@login_required
+def confirm(token):
+    """邮箱验证"""
+    if current_user.confirmed:
+        pass
+        return redirect(url_for('main.index'))
+    if current_user.confirm(token):
+        flash('您已确认账户')
+    else:
+        flash('确认链接已失效或者过期！')
+    return redirect(url_for('main.index'))
 
 
 

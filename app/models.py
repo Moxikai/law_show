@@ -7,7 +7,11 @@
 
 
 from werkzeug.security import generate_password_hash,check_password_hash
+from itsdangerous import TimedJSONWebSignatureSerializer as Seriallizer
+from flask import current_app
 from flask_login import UserMixin,url_for
+
+
 from . import db
 from . import login_manager
 
@@ -127,8 +131,8 @@ class User(UserMixin,db.Model):
     username = db.Column(db.String(128),index=True,unique=True) # 用户名,唯一
     email = db.Column(db.String(128),index=True,unique=True) # 注册邮箱,唯一
     password_hash = db.Column(db.String(128),index=True) # 密码摘要
-    status = db.Column(db.String(32),default=False) # 用户状态,默认未激活
     role_id = db.Column(db.Integer,db.ForeignKey('roles.id')) # 外键,角色id
+    confirmed = db.Column(db.Boolean,default=False) # 是否确认
 
     @property # 方法转化为属性,可以用.访问
     def password(self):
@@ -142,6 +146,25 @@ class User(UserMixin,db.Model):
     def verify_password(self,password):
         """验证密码"""
         return check_password_hash(self.password_hash,password)
+
+    def generate_confirmation_token(self,expiration=3600):
+        """生成密钥，有效时间3600秒"""
+        s = Seriallizer(current_app.config['SECRET_KEY'],expiration)
+        return s.dumps({'confirm':self.id})
+
+    def confirm(self,token):
+        """验证令牌"""
+        s = Seriallizer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return False
+        if data.get('confirm') != self.id:
+            return False
+        self.confirmed = True
+        db.session.add(self)
+        db.session.commit()
+        return True
 
 
 class Role(db.Model):

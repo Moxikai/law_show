@@ -1,0 +1,8 @@
+<p>尊敬的 {{ user.username }},</p>
+<p>欢迎加入<b>烽火台</b>!</p>
+<p>确认账户 <a href="{{ url_for('auth.confirm', token=token, _external=True) }}">请点击这里</a>.</p>
+<p>同时，您也可以把以下地址粘贴到浏览器地址栏:</p>
+<p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>
+<p>此致</p>
+<p>烽火台</p>
+<p><small>备注：不必回复邮件，系统不会处理</small></p>
